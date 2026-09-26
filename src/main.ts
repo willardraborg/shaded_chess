@@ -8,21 +8,36 @@ const renderer = new THREE.WebGLRenderer();
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-camera.position.z = 5;
-
-const geometry = new THREE.BoxGeometry(1,1,1);
-const material = new THREE.MeshNormalMaterial();
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+camera.position.set(0,8,8);
+camera.lookAt(0,0,0);
 
 let lastTime = 0;
-const speed = 1;
+
+const geometry = new THREE.BoxGeometry(1, 0.2, 1);
+const light    = new THREE.MeshBasicMaterial({color: 0xeeeed2});
+const dark     = new THREE.MeshBasicMaterial({color: 0x769656});
+
+function color(i: number, j: number){
+    if((i + j) % 2 == 0){
+        return light;
+    } else{
+        return dark;
+    }
+}
+
+for(let i = 0; i <= 7; i++){
+    for(let j = 0; j <= 7; j++){
+        const material = color(i,j);
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.position.x = i - 3.5;
+        mesh.position.z = j - 3.5;
+        scene.add(mesh);
+    }
+}
 
 function animate(time: number){
     const dt = (time - lastTime) / 1000;
     lastTime = time;
-    cube.rotation.x += speed * dt;
-    cube.rotation.y += speed * dt;
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
 }
