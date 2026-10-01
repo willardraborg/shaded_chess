@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import './style.css';
+import { createInitialBoard, squareToWorld } from './board';
+import type { Board } from './board';
 
+const board: Board = createInitialBoard();
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true});
