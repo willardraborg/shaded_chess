@@ -11,7 +11,6 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true});
 
-// Render at least 2x the screen resolution; the browser scales it down, smoothing small details (supersampling).
 renderer.setPixelRatio(Math.max(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
@@ -21,7 +20,6 @@ document.body.appendChild(renderer.domElement);
 camera.position.set(0,8,8);
 camera.lookAt(0,0,0);
 
-// Soft studio-style light from every direction, so the pieces get gentle shading and reflections.
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 scene.environmentIntensity = 0.35;
@@ -48,7 +46,6 @@ await Promise.all(pieceTypes.map(async (type) => {
     models.set(type, gltf.scene);
 }));
 
-// Soft base with a thin glossy clearcoat on top, like lacquered wood.
 const whiteMaterial = new THREE.MeshPhysicalMaterial({color: 0xcfc2a8,
 roughness: 0.5, clearcoat: 0.2, clearcoatRoughness: 0.25, side: THREE.DoubleSide});
 const blackMaterial = new THREE.MeshPhysicalMaterial({color: 0x2a3550,
